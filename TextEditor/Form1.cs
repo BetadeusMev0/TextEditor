@@ -19,6 +19,13 @@ namespace TextEditor
         private string tmp = "";
 
 
+        private void SetPath(string path) 
+        {
+            this.path = path;
+            PathLabel.Text = path;
+        }
+
+
         private void richTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.S) SaveToFile(); 
@@ -51,7 +58,7 @@ namespace TextEditor
                     if (isCreate)
                     {
                         Directory.CreateDirectory(richTextBox.Text);
-                        path = richTextBox.Text + "\\" + richTextBox.Text + ".txt";
+                        SetPath(richTextBox.Text + "\\" + richTextBox.Text + ".txt");
                         richTextBox.Text = tmp;
                         SaveToFile();
                         labelStatus.Text = "";
@@ -74,7 +81,7 @@ namespace TextEditor
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(saveFileDialog1.FileName, richTextBox.Text);
-                path = saveFileDialog1.FileName;
+                SetPath(saveFileDialog1.FileName);
             }
         }
 
@@ -88,7 +95,7 @@ namespace TextEditor
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 richTextBox.Text = File.ReadAllText(openFileDialog1.FileName);
-                path= openFileDialog1.FileName;
+                SetPath(openFileDialog1.FileName);
             }
         }
 
@@ -125,7 +132,7 @@ namespace TextEditor
         private void DeleteFile() 
         {
             File.Delete(path);
-            path = "";
+            SetPath("");
         }
 
 
